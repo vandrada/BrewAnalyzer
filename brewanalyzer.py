@@ -15,15 +15,11 @@ class BrewAnalyzer(cmd.Cmd):
         comm.welcome()
 
     def do_quit(self, line):
-        '''
-        Quits the program
-        '''
+        '''Quits the program'''
         return True
 
     def do_EOF(self, line):
-        '''
-        Quits the program on EOF
-        '''
+        '''Quits the program on EOF'''
         return True
 
     def completedefault(self, text, line, start_index, end_index):
@@ -37,39 +33,28 @@ class BrewAnalyzer(cmd.Cmd):
             return map(lambda prog: prog.get_name(), comm.db.programs)
 
     def do_reload(self, line):
-        '''
-        Reloads the database
-        '''
+        '''Reloads the database'''
         comm.reload_database()
 
     def do_create(self, line):
-        '''Creates a new persistent database
-        '''
+        '''Creates a new persistent database'''
         comm.create_new_database()
 
     # Database
     def do_list(self, line):
-        '''
-        Prints all the programs installed
-        '''
+        '''Prints all the programs installed'''
         self.columnize(comm.print_programs(), displaywidth=column_size)
 
     def do_deps(self, line):
-        '''
-        Prints the dependencies of a program
-        '''
+        '''Prints the dependencies of a program'''
         self.columnize(comm.deps(line), displaywidth=column_size)
 
     def do_uses(self, line):
-        '''
-        Prints the uses of a program
-        '''
+        '''Prints the uses of a program'''
         self.columnize(comm.uses(line), displaywidth=column_size)
 
     def do_info(self, line):
-        '''
-        Prints the dependencies and the uses of a program
-        '''
+        '''Prints the dependencies and the uses of a program'''
         program = line.split()
         if len(program) != 1:
             self.do_help("info")
@@ -80,9 +65,7 @@ class BrewAnalyzer(cmd.Cmd):
             self.do_uses(program[0])
 
     def do_sharedDeps(self, line):
-        '''
-        Prints the dependencies shared by two programs
-        '''
+        '''Prints the dependencies shared by two programs'''
         programs = line.split()
         if len(programs) != 2:
             self.do_help("sharedDeps")
@@ -92,9 +75,7 @@ class BrewAnalyzer(cmd.Cmd):
                     displaywidth=column_size)
 
     def do_sharedUses(self, line):
-        '''
-        Prints the uses shared by two programs
-        '''
+        '''Prints the uses shared by two programs'''
         programs = line.split()
         if len(programs) != 2:
             self.do_help("sharedUses")
@@ -104,27 +85,21 @@ class BrewAnalyzer(cmd.Cmd):
                     displaywidth=column_size)
 
     def do_onlyDeps(self, line):
-        '''
-        Only prints the programs that have dependencies
-        '''
+        '''Only prints the programs that have dependencies'''
         if len(line) != 0:
             self.do_help("onlyDeps")
         else:
             self.columnize(comm.only_deps(), displaywidth=column_size)
 
     def do_onlyUses(self, line):
-        '''
-        Only prints the programs with uses
-        '''
+        '''Only prints the programs with uses'''
         if len(line) != 0:
             self.do_help("onlyUses")
         else:
             self.columnize(comm.only_uses(), displaywidth=column_size)
 
     def do_standalones(self, line):
-        '''
-        Prints the programs with no dependencies and no uses
-        '''
+        '''Prints the programs with no dependencies and no uses'''
         if len(line) != 0:
             self.do_help("standalones")
         else:
@@ -132,21 +107,21 @@ class BrewAnalyzer(cmd.Cmd):
 
     # There has to be a better name for this
     def do_hypotheticalRm(self, line):
-        '''
-        Prints the programs that will be broken if a program is removed
-        '''
+        '''Prints the programs that will be broken if a program is removed'''
         program = line.split()
         if len(program) != 1:
             self.do_help("hypotheticalRm")
         else:
             self.columnize(comm.rm_question(program[0]),
-                    displaywidth=column_size)
+                displaywidth=column_size)
 
     def do_tree(self, line):
-        '''
-        Prints a tree representing the program and it's dependencies
-        '''
-        comm.dependency_tree(line, "")
+        '''Prints a tree representing the program and it's dependencies'''
+        program = line.split()
+        if len(program) != 1:
+            self.do_help("tree")
+        else:
+            comm.dependency_tree(line, "")
 
 if __name__ == "__main__":
     comm = commands.Commands()

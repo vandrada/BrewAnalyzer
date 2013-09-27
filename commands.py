@@ -48,7 +48,7 @@ class Commands(object):
 
     def __readin(self):
         '''
-        Reads the members of database from a pickle file
+        Reads the members of the database from disk
         '''
         # Programs
         programs_in = open(self.programs_location, "rb")
@@ -76,10 +76,11 @@ class Commands(object):
                 # Creates the files
                 mkdir(self.dir_location)
                 print "Please wait while the database is being built--",\
-                        "this can take some time"
+                    "this can take some time"
                 self.db.build()
                 self.__writeout()
-                print "Files saved to", self.dir_location
+                print "Files saved to" + self.YELLOW + self.dir_location +\
+                    self.CLEAR
 
                 self.__save_mtime()
             except OSError:
